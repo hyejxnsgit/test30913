@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#1549ef" />
+  <title>파란선 | 오늘의 혈당 기록</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="앱 메뉴">
+      <div class="brand"><span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span><span>파란선</span></div>
+      <div class="sidebar-rule"></div>
+      <div class="side-item active"><span class="side-icon grid-icon" aria-hidden="true"></span><span>오늘의 기록</span></div>
+      <button class="side-item side-button" id="open-guide" type="button"><span class="side-icon guide-icon" aria-hidden="true">?</span><span>사용 방법</span></button>
+      <div class="sidebar-bottom"><span class="side-dot"></span>작은 기록이 하루를 바꿉니다.</div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div class="mobile-brand"><span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span>파란선</div>
+        <div class="date-wrap"><span class="date-label">오늘</span><strong id="today-date"></strong></div>
+        <button class="header-guide" id="mobile-guide" type="button" aria-label="사용 방법 열기">사용 방법</button>
+      </header>
+
+      <div class="page-content">
+        <section class="intro" aria-labelledby="page-title">
+          <div><p class="eyebrow">하루의 식사, 한눈에</p><h1 id="page-title">오늘 먹은 음식,<br><span>어떻게 쌓이고 있나요?</span></h1><p class="intro-copy">음식과 영양정보를 남기면 오늘의 탄수화물 기록을 바탕으로 주의 단계를 보여드려요.</p></div>
+          <div class="intro-symbol" aria-hidden="true"><div class="symbol-line one"></div><div class="symbol-line two"></div><div class="symbol-line three"></div><div class="symbol-line four"></div></div>
+        </section>
+
+        <div class="dashboard-grid">
+          <section class="gauge-card" aria-labelledby="gauge-title">
+            <div class="card-heading"><div><p class="section-kicker">오늘의 상태</p><h2 id="gauge-title">혈당 주의 게이지</h2></div><span class="live-pill"><span></span>기록 반영 중</span></div>
+            <div class="gauge-display">
+              <div class="gauge-ring" role="progressbar" aria-label="오늘의 주의 게이지" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="gauge-progress">
+                <div class="gauge-ring-fill" id="gauge-ring-fill"></div>
+                <div class="gauge-center"><span class="status-label">현재 단계</span><strong id="risk-label" class="risk-title good">적절</strong><span class="gauge-percent" id="gauge-percent">0% 채움</span></div>
+              </div>
+              <div class="gauge-side"><p id="risk-copy">아직 기록이 없어요. 첫 음식을 남겨보세요.</p><div class="gauge-legend" aria-label="게이지 단계"><span><i class="legend-good"></i>적절</span><span><i class="legend-medium"></i>보통</span><span><i class="legend-high"></i>위험</span></div></div>
+            </div>
+            <div class="metric-row"><div><span>누적 탄수화물</span><strong id="total-carb">0<small>g</small></strong></div><div><span>누적 당류</span><strong id="total-sugar">0<small>g</small></strong></div><div><span>기록한 음식</span><strong id="total-items">0<small>개</small></strong></div></div>
+            <p class="gauge-note">앱 기준 점수 = 탄수화물(g) + 당류(g) × 0.25. 50 미만은 적절, 50~99는 보통, 100 이상은 위험으로 표시합니다. 실제 혈당 수치나 의학적 진단을 뜻하지 않아요.</p>
+          </section>
+
+          <section class="entry-card" aria-labelledby="entry-title">
+            <div class="card-heading entry-heading"><div><p class="section-kicker">새 기록</p><h2 id="entry-title">먹은 음식 추가하기</h2></div></div>
+            <div class="entry-tabs" role="tablist" aria-label="기록 방식"><button class="entry-tab active" type="button" role="tab" aria-selected="true" data-tab="text">글로 기록</button><button class="entry-tab" type="button" role="tab" aria-selected="false" data-tab="photo">사진으로 기록</button></div>
+            <form id="food-form" novalidate>
+              <div class="photo-area hidden" id="photo-area"><input type="file" id="photo-input" accept="image/*" capture="environment" hidden /><button class="photo-upload" id="photo-button" type="button"><span class="camera-icon" aria-hidden="true"></span><span id="photo-button-text">사진 촬영 또는 파일 선택</span></button><div id="photo-preview" class="photo-preview hidden"><img id="photo-image" alt="첨부한 음식 사진 미리보기" /><button type="button" id="remove-photo" aria-label="사진 삭제">×</button></div><p class="field-help">사진은 기록에 첨부됩니다. 영양성분표의 수치는 아래에 직접 입력해 주세요.</p></div>
+              <label for="food-name">음식 이름 <span class="required">*</span></label><input id="food-name" name="food-name" type="text" maxlength="40" placeholder="예: 점심에 먹은 김밥" autocomplete="off" required />
+              <div class="two-fields"><div><label for="carbs">탄수화물 <span class="required">*</span> <small>g</small></label><div class="number-field"><input id="carbs" name="carbs" type="number" min="0" max="500" step="0.1" inputmode="decimal" placeholder="0" required /><span>g</span></div></div><div><label for="sugar">당류 <small>g</small></label><div class="number-field"><input id="sugar" name="sugar" type="number" min="0" max="500" step="0.1" inputmode="decimal" placeholder="0" /><span>g</span></div></div></div>
+              <p class="field-help input-help">영양성분표에 적힌 1회 섭취량 기준으로 입력해 주세요. 당류는 탄수화물에 포함됩니다.</p>
+              <p class="form-error" id="form-error" role="alert" hidden></p>
+              <button class="submit-button" type="submit">오늘의 기록에 추가 <span aria-hidden="true">＋</span></button>
+            </form>
+          </section>
+        </div>
+
+        <section class="history-section" aria-labelledby="history-title"><div class="history-heading"><div><p class="section-kicker">오늘의 기록</p><h2 id="history-title">먹은 음식 목록 <span id="history-count">0</span></h2></div><span id="history-date"></span></div><div id="history-list" class="history-list"></div></section>
+        <footer class="app-footer">파란선은 식사 기록을 돕는 도구입니다. 혈당 스파이크 여부는 혈당 측정으로 확인해 주세요. <a href="https://www.cdc.gov/diabetes/healthy-eating/carb-counting-manage-blood-sugar.html" target="_blank" rel="noopener noreferrer">탄수화물과 혈당 알아보기</a></footer>
+      </div>
+    </main>
+  </div>
+
+  <div class="modal-backdrop" id="guide-modal" hidden><div class="guide-modal" role="dialog" aria-modal="true" aria-labelledby="guide-title"><button class="modal-close" id="close-guide" type="button" aria-label="사용 방법 닫기">×</button><div class="guide-visual" aria-hidden="true"><div class="mini-logo"><span class="brand-mark"><span></span><span></span><span></span></span>파란선</div><div class="guide-art"><div class="guide-art-card"><i></i><i></i><i></i><i></i></div><div class="guide-art-line"></div></div><span class="guide-visual-caption">오늘의 선택을<br>더 잘 이해하는 방법</span></div><div class="guide-content"><span class="guide-step" id="guide-step">01 / 02</span><h2 id="guide-title"></h2><p id="guide-description"></p><div class="guide-detail" id="guide-detail"></div><div class="guide-controls"><div class="guide-dots"><span class="active"></span><span></span></div><button id="guide-next" type="button">다음</button></div></div></div></div>
+  <div class="alert-toast" id="alert-toast" role="status" aria-live="polite" hidden><span class="alert-bar"></span><div><strong id="toast-title"></strong><p id="toast-copy"></p></div><button id="close-toast" type="button" aria-label="알림 닫기">×</button></div>
+  <script src="app.js"></script>
+</body>
+</html>
